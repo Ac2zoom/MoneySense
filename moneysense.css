@@ -1,0 +1,357 @@
+.initial-title {
+	font-family: 'Share Tech Mono', sans-serif;
+}
+h1.main-title {
+	font-size: 150;
+	color: #FF5600;
+	font-family: 'Share Tech Mono', sans-serif;
+}
+div.play-button {
+	width: 10%;
+	margin-left: auto;
+	margin-right: auto;
+}
+div.section-heading {
+	text-align: center;
+}
+div.section-content {
+	text-align: center;
+}
+div.document-select {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%;
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%
+}
+div.primary-title {
+	padding-bottom: 20px;
+	background-color: #60D4AE;
+}
+div.contact-button {
+	width: 30%;
+	margin-left: auto;
+	margin-right: auto;
+}
+div.unit-select {
+	position: fixed;
+	background-color: #FF5600;
+	height: 100%;
+	width: 50%;
+	float: left;
+	top: 51px;
+	border: 0px;
+	padding: 0px;
+}
+div.class-title {
+	position: fixed;
+	background-color: #FFA273;
+	width: 50%;
+	height: 51px;
+	text-align: center;
+	top: 51px;
+	margin-top: 0px;
+	color: #BF6030;
+}
+div.ms-nav {
+	margin-bottom: 0px;
+	background-color: #EA0037;
+	font-family: 'Share Tech Mono', sans-serif;
+	border: 0px #EA0037;
+}
+h4.class-title {
+	font-family: 'Share Tech Mono', sans-serif;
+	font-size: 2.3em;
+}
+body {
+	background-color: #FF8040;
+}
+div.revenue-unit {
+	position: relative;
+	border: 2px solid #35D4A0;
+	height: 80px;
+	width: 80px;
+	border-radius: 100%;
+	top: 100px;
+	left: 10%;
+	background-color: #F53D68;
+	text-align: center;
+	margin-right: 0;
+}
+div h5 {
+	position: relative;
+	margin-top: 40%;
+	font-family: 'Share Tech Mono', sans-serif;
+	color: blue;
+}
+.revenue-unit:hover {
+	background-color: #60D4AE;
+	border: 2px dotted #F56E8D;
+}
+.revenue-unit:hover h5 {
+	color:#F56E8D; 
+	background-color:#60D4AE;
+}
+#toggleText {
+	width: 50%;
+	height: 100%;
+	top: 51;
+	background-color: #FFA273;
+	float: right;
+	padding-top: 0px;
+	z-index: 1;
+}
+div.visited#displayText {
+	background-color: #006E4A;
+	border: 2px solid #980023;
+}
+div.visited#displayText h5 {
+	color: #980023;
+	background-color: #006E4A;
+}
+div.revenue-title {
+	position: relative;
+	text-align: center;
+	top: 51;
+	background-color: #A63800;
+	margin-bottom: 0px;
+}
+div.revenue-title h1 {
+	color: #FFA273;
+	margin-top: 0px;
+	font-size: 5em;
+	font-family: 'Share Tech Mono', sans-serif;
+	margin-bottom: 0px;
+}
+div.revenue-description {
+	position: absolute;
+	background-color: #FFA273;
+	top: 128;
+	margin-top: 0px;
+}
+#revenue-intro-text {
+	margin-left: 2%;
+	margin-right: 2%;
+	color: #A63800;
+}
+.description-heading {
+	text-align: center; 
+	margin-top: 10px; 
+	color: #A63800;
+}
+div.revenue-description2 {
+	position: relative;
+	top: 260px;
+}
+#revenue-importance-text {
+	margin-left: 2%;
+	margin-right: 2%;
+	color: #A63800;
+}
+.modal-title {
+	text-align: center;
+}
+.alert-job,.alert-salary {
+	display: none;
+}
+h1.support-title {
+	line-height: 150%;
+	font-family: 'Share Tech Mono', sans-serif;
+	color: #FF5600;
+}
+.support-content {
+	text-align: justify;
+	padding: 10px;
+}
+.support-row {
+	margin-top: 0px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 0px;
+}
+div.unit-instructions {
+	position: fixed;
+	width: 50%;
+	float: right;
+	left: 50%;
+	z-index: 2;
+	padding-top: 50px;
+	text-align: center;
+}
+.instructions {
+	color: #A63800;
+}
+.ms-nav-list {
+	color: #00AA72;
+}
+.jumbotron {
+	margin-right: 0px;
+}
+.uncle-sam {
+	margin-left: 0px;
+}
+.support-container {
+	padding: 0px;
+	margin-bottom: 0px;
+}
+.about-well {
+	margin: 5%;
+	background-color: #207F60;
+	border: 1px solid #F56E8D;
+	color: #FF9900;
+	font-family: 'Share Tech Mono', sans-serif;
+	text-align: justify;
+}
+div.expenses-unit {
+	position: relative;
+	border: 2px solid #35D4A0;
+	height: 100px;
+	width: 100px;
+	border-radius: 100%;
+	top: 130px;
+	left: 25%;
+	background-color: #F53D68;
+	text-align: center;
+	margin-right: 0;
+}
+.expenses-unit:hover {
+	background-color: #60D4AE;
+	border: 2px dotted #F56E8D;
+}
+.expenses-unit:hover h5 {
+	color:#F56E8D; 
+	background-color:#60D4AE;
+}
+div.visited#displayText2 {
+	background-color: #006E4A;
+	border: 2px solid #980023;
+}
+div.visited#displayText2 h5 {
+	color: #980023;
+	background-color: #006E4A;
+}
+#toggleText2 {
+	width: 50%;
+	height: 100%;
+	top: 51;
+	background-color: #FFA273;
+	float: right;
+	padding-top: 0px;
+	z-index: 1;
+}
+div.taxes-unit {
+	position: relative;
+	border: 2px solid #35D4A0;
+	height: 70px;
+	width: 70px;
+	border-radius: 100%;
+	top: 100px;
+	left: 60%;
+	background-color: #F53D68;
+	text-align: center;
+	margin-right: 0;
+}
+.taxes-unit:hover {
+	background-color: #60D4AE;
+	border: 2px dotted #F56E8D;
+}
+.taxes-unit:hover h5 {
+	color:#F56E8D; 
+	background-color:#60D4AE;
+}
+div.visited#displayText3 {
+	background-color: #006E4A;
+	border: 2px solid #980023;
+}
+div.visited#displayText3 h5 {
+	color: #980023;
+	background-color: #006E4A;
+}
+#toggleText3 {
+	width: 50%;
+	height: 100%;
+	top: 51;
+	background-color: #FFA273;
+	float: right;
+	padding-top: 0px;
+	z-index: 1;
+}
+div.budgeting-unit {
+	position: relative;
+	border: 2px solid #35D4A0;
+	height: 150px;
+	width: 150px;
+	border-radius: 100%;
+	top: 120px;
+	left: 35%;
+	background-color: #F53D68;
+	text-align: center;
+	margin-right: 0;
+}
+.budgeting-unit:hover {
+	background-color: #60D4AE;
+	border: 2px dotted #F56E8D;
+}
+.budgeting-unit:hover h5 {
+	color:#F56E8D; 
+	background-color:#60D4AE;
+}
+div.visited#displayText4 {
+	background-color: #006E4A;
+	border: 2px solid #980023;
+}
+div.visited#displayText4 h5 {
+	color: #980023;
+	background-color: #006E4A;
+}
+#toggleText4 {
+	width: 50%;
+	height: 100%;
+	top: 51;
+	background-color: #FFA273;
+	float: right;
+	padding-top: 0px;
+	z-index: 1;
+}
+.budgeting-unit-title {
+	margin-top: 45%;
+}
+.saving-btn {
+	position: fixed;
+	left: 18%;
+	bottom: 0%;
+}
+.login {
+    float: right;
+    clear: none;
+    padding-top: 16px;
+}
+.receipt-header {
+    text-align: center;
+    font-family: 'Dosis', sans-serif;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.budgeting-modal {
+    text-align: center;
+}
+.receipt-selection {
+    display: block;
+}
+.receipt {
+    display: block;
+    margin-top: 40px;
+    font-family: 'Dosis', sans-serif;
+    border-style: solid;
+}

@@ -1,0 +1,151 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" 
+			type="image/png" 
+			href="favicon.png">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="moneysense.css">
+		<link href='http://fonts.googleapis.com/css?family=Joti+One|Share+Tech+Mono' rel='stylesheet' type='text/css'>
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+		<title>About - MoneySense</title>
+	</head>
+	<body>
+        <script>
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '743870962399581',
+              xfbml      : true,
+              version    : 'v2.3'
+            });
+          };
+
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script>
+          // This is called with the results from from FB.getLoginStatus().
+          function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+              // Logged into your app and Facebook.
+              testAPI();
+            } else if (response.status === 'not_authorized') {
+              // The person is logged into Facebook, but not your app.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+            } else {
+              // The person is not logged into Facebook, so we're not sure if
+              // they are logged into this app or not.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+            }
+          }
+
+          // This function is called when someone finishes with the Login
+          // Button.  See the onlogin handler attached to it in the sample
+          // code below.
+          function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+              statusChangeCallback(response);
+            });
+          }
+
+          window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '743870962399581',
+            cookie     : true,  // enable cookies to allow the server to access 
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.2' // use version 2.2
+          });
+
+          // Now that we've initialized the JavaScript SDK, we call 
+          // FB.getLoginStatus().  This function gets the state of the
+          // person visiting this page and can return one of three states to
+          // the callback you provide.  They can be:
+          //
+          // 1. Logged into your app ('connected')
+          // 2. Logged into Facebook, but not your app ('not_authorized')
+          // 3. Not logged into Facebook and can't tell if they are logged into
+          //    your app or not.
+          //
+          // These three cases are handled in the callback function.
+
+          FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+          });
+
+          };
+
+          // Load the SDK asynchronously
+          (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+
+          // Here we run a very simple test of the Graph API after login is
+          // successful.  See statusChangeCallback() for when this call is made.
+          function testAPI() {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function(response) {
+              console.log('Successful login for: ' + response.name);
+              document.getElementById('status').innerHTML =
+                'Thanks for logging in, ' + response.name + '!';
+            });
+          }
+        </script>
+		<div class="navbar navbar-inverse navbar-fixed-top ms-nav">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand initial-title" href="#"><strong>Money$ense</strong></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="moneysense.html">home</a></li>
+						<li><a href="play.html">play</a></li>
+						<li class="active"><a href="about.html">ABOUT</a></li>
+						<li><a href="support.html">support</a></li>
+					</ul>
+                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="login"></fb:login-button>
+                    <div id="status" class="login"></div>
+				</div><!--/.navbar-collapse -->
+            </div>
+		</div>
+		<div class="jumbotron primary-title">
+			<div class="container">
+				<h1 align="center" class="main-title">What is Money$ense?</h1>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="well about-well">
+				<p>MoneySense is a program in the Puget Sound region that resides within High Schools to teach students about how to manage their own personal finances in the future.  This includes how to spend and save wisely, how to keep a budget, how to avoid debt, and all in all, how to create a more financially stable future for our world.  We do this by sending volunteers with custom material into classes where they run activities to help students learn the material in a unique and interactive way.  We combine this with online resources, including a game and a personal financial manager software that will make this program even more intuitive for the students.</p>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="well about-well">
+				<p>We are a non-profit organization based out of Bothell, WA.  At this point, as of November 2013, we are in the early development phases.  Two years ago, in October 2011, we won a grant from Ashoka Seattle at SIFP Seattle 2011 (Social Innovation Fast Pitch), now called SVP (Social Venture Partners) Fast Pitch Showdown.  Our goal through this event was to get recognition with schools, volunteers, and potential investors.  We hoped to attract financial institutions and companies to invest in us, as we are creating future responsible customers for them.  We also need volunteers to teach the program in schools, and we need schools that will allow us to teach our material.  The purpose of the prototype on this website is to present to these potential contributors the structure with which our ending product will be built.</p>
+			</div>
+		</div>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	</body>
+</html>

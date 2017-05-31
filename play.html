@@ -1,0 +1,458 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="moneysense.css">
+		<link href='http://fonts.googleapis.com/css?family=Dosis|Share+Tech+Mono|Joti+One' rel='stylesheet' type='text/css'>
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+		<title>Play - Spending - MoneySense</title>
+		<link rel="shortcut icon" type="image/png" href="favicon.png">
+        <script src="classes/Character.js"></script>
+        <script src="classes/Bank.js"></script>
+	</head>
+	<body class="play-body">
+        <script>
+            var access_token;
+            var name;
+            var currentCharacter = new Character();
+          window.fbAsyncInit = function() {
+            FB.init({
+              appId      : '743870962399581',
+              xfbml      : true,
+              version    : 'v2.3'
+            });
+          };
+
+          (function(d, s, id){
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) {return;}
+             js = d.createElement(s); js.id = id;
+             js.src = "//connect.facebook.net/en_US/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script>
+          // This is called with the results from from FB.getLoginStatus().
+          function statusChangeCallback(response) {
+            console.log('statusChangeCallback');
+            console.log(response);
+            // The response object is returned with a status field that lets the
+            // app know the current login status of the person.
+            // Full docs on the response object can be found in the documentation
+            // for FB.getLoginStatus().
+            if (response.status === 'connected') {
+              // Logged into your app and Facebook.
+                currentCharacter.access_token = response.authResponse.accessToken;
+                currentCharacter.name = response.name;
+                $.post("http://localhost:3000/send_character", currentCharacter);
+              testAPI();
+            } else if (response.status === 'not_authorized') {
+              // The person is logged into Facebook, but not your app.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into this app.';
+            } else {
+              // The person is not logged into Facebook, so we're not sure if
+              // they are logged into this app or not.
+              document.getElementById('status').innerHTML = 'Please log ' +
+                'into Facebook.';
+            }
+          }
+
+          // This function is called when someone finishes with the Login
+          // Button.  See the onlogin handler attached to it in the sample
+          // code below.
+          function checkLoginState() {
+            FB.getLoginStatus(function(response) {
+              statusChangeCallback(response);
+            });
+          }
+
+          window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '743870962399581',
+            cookie     : true,  // enable cookies to allow the server to access 
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.2' // use version 2.2
+          });
+
+          // Now that we've initialized the JavaScript SDK, we call 
+          // FB.getLoginStatus().  This function gets the state of the
+          // person visiting this page and can return one of three states to
+          // the callback you provide.  They can be:
+          //
+          // 1. Logged into your app ('connected')
+          // 2. Logged into Facebook, but not your app ('not_authorized')
+          // 3. Not logged into Facebook and can't tell if they are logged into
+          //    your app or not.
+          //
+          // These three cases are handled in the callback function.
+
+          FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+            if(response.authResponse != null){
+                access_token = response.authResponse.accessToken;
+            }
+          });
+
+          };
+
+          // Load the SDK asynchronously
+          (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+
+          // Here we run a very simple test of the Graph API after login is
+          // successful.  See statusChangeCallback() for when this call is made.
+          function testAPI() {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function(response) {
+              console.log('Successful login for: ' + response.name);
+              document.getElementById('status').innerHTML =
+                'Thanks for logging in, ' + response.name + '!';
+              name = response.name;
+            });
+          }
+        </script>
+        <script src="play.js" ></script>
+		<div class="navbar navbar-inverse navbar-fixed-top ms-nav">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand initial-title" href="#"><strong>Money$ense</strong></a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="moneysense.html">home</a></li>
+						<li class="active"><a href="play.html">PLAY</a></li>
+						<li><a href="about.html">about</a></li>
+						<li><a href="support.html">support</a></li>
+					</ul>
+                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" class="login"></fb:login-button>
+                    <div id="status"></div>
+				</div><!--/.navbar-collapse -->
+			</div>
+		</div>
+        <div class="unit-select">
+            <div class="class-title">
+                <h4 class="class-title"><b>Spending</b></h4>
+            </div>
+            <div class="revenue-unit" onclick='visitRevenue();' id='displayText'>
+                <h5>Revenue</h5>
+            </div>
+            <div class="expenses-unit" onclick='visitExpenses();' id='displayText2'>
+                <h5>Expenses</h5>
+            </div>
+            <div class="taxes-unit" onclick='visitTaxes();' id='displayText3'>
+                <h5>Taxes</h5>
+            </div>
+            <div class="budgeting-unit" onclick='visitBudgeting();' id='displayText4'>
+                <h5 class="budgeting-unit-title">Budgeting</h5>
+            </div>
+            <a href="saving.html" class="btn btn-primary btn-lg btn-warning saving-btn">Proceed <span class="glyphicon glyphicon-forward"></span></a>
+        </div>
+        <div class="unit-instructions">
+            <h2 class="instructions">Click A Circle to Begin</h2>
+            <h3 class="instructions">Don't know where to start?  Try "Revenue"!</h3>
+        </div>
+		<div id="toggleText" style="display: none">
+			<div class="revenue-title">
+				<h1>Revenue</h1>
+			</div>
+			<div class="revenue-description">
+				<h2 class="description-heading">What is it?</h2>
+				<p id="revenue-intro-text">Welcome to the beginning of your new life!  Each of us has a unique perspective on what money means (feel free to share your story <a href='share.html'>here</a>), but the truth is that modern livelihood is impossible without some way to acquire it.  Even so, getting a job isn't easy!  In this lesson's activity, you will complete a resume in order to apply for a job.  As of now, no characters have any higher education, though that may change throughout your story.  Read on for some advice about how to approach this activity, or skip ahead by clicking Play!</p>
+			</div>
+			<div class="revenue-description2">
+				<h2 class="description-heading">Why does it matter to me?</h2>
+				<p id="revenue-importance-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue lorem vel est porta convallis. Vivamus sagittis nisi in lacinia tristique. Proin quis vestibulum quam. Vestibulum placerat ultricies sem, in aliquam justo tempus quis. Proin nec dignissim erat. Suspendisse quis neque a erat fermentum fringilla at quis erat. Proin ornare, nisl sit amet cursus gravida, nisl metus fermentum diam, in varius sem massa sit amet est. Curabitur id metus eget tellus rhoncus pellentesque. Aliquam a semper erat. Fusce scelerisque nisi a elit tempus laoreet. Aliquam id pellentesque eros. Morbi ac vehicula arcu. Etiam sit amet malesuada felis. Cras in sem eget elit bibendum gravida. Pellentesque vel congue nisl, eget rutrum dui.</p>
+				<div class="play-button">
+					<p><a data-toggle="modal" href="#generator" class="btn btn-primary btn-lg btn-success" onclick="getHeader()"><i class="fa fa-play"></i>  PLAY</a></p>
+				</div>
+			</div>
+		</div>
+		<div id="toggleText2" style="display: none">
+			<div class="revenue-title">
+				<h1>Expenses</h1>
+			</div>
+			<div class="revenue-description">
+				<h2 class="description-heading">What are they?</h2>
+				<p id="revenue-intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue lorem vel est porta convallis. Vivamus sagittis nisi in lacinia tristique. Proin quis vestibulum quam. Vestibulum placerat ultricies sem, in aliquam justo tempus quis. Proin nec dignissim erat. Suspendisse quis neque a erat fermentum fringilla at quis erat. Proin ornare, nisl sit amet cursus gravida, nisl metus fermentum diam, in varius sem massa sit amet est. Curabitur id metus eget tellus rhoncus pellentesque. Aliquam a semper erat. Fusce scelerisque nisi a elit tempus laoreet. Aliquam id pellentesque eros. Morbi ac vehicula arcu. Etiam sit amet malesuada felis. Cras in sem eget elit bibendum gravida. Pellentesque vel congue nisl, eget rutrum dui.</p>
+			</div>
+			<div class="revenue-description2">
+				<h2 class="description-heading">Why does it matter to me?</h2>
+				<p id="revenue-importance-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue lorem vel est porta convallis. Vivamus sagittis nisi in lacinia tristique. Proin quis vestibulum quam. Vestibulum placerat ultricies sem, in aliquam justo tempus quis. Proin nec dignissim erat. Suspendisse quis neque a erat fermentum fringilla at quis erat. Proin ornare, nisl sit amet cursus gravida, nisl metus fermentum diam, in varius sem massa sit amet est. Curabitur id metus eget tellus rhoncus pellentesque. Aliquam a semper erat. Fusce scelerisque nisi a elit tempus laoreet. Aliquam id pellentesque eros. Morbi ac vehicula arcu. Etiam sit amet malesuada felis. Cras in sem eget elit bibendum gravida. Pellentesque vel congue nisl, eget rutrum dui.</p>
+				<div class="play-button">
+					<p><a data-toggle="modal" href="#expenses-play" class="btn btn-primary btn-lg btn-success"><i class="fa fa-play"></i>  PLAY</a></p>
+				</div>
+			</div>
+		</div>
+		<div id="toggleText3" style="display: none">
+			<div class="revenue-title">
+				<h1>Taxes</h1>
+			</div>
+			<div class="revenue-description">
+				<h2 class="description-heading">What are they?</h2>
+				<p id="revenue-intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue lorem vel est porta convallis. Vivamus sagittis nisi in lacinia tristique. Proin quis vestibulum quam. Vestibulum placerat ultricies sem, in aliquam justo tempus quis. Proin nec dignissim erat. Suspendisse quis neque a erat fermentum fringilla at quis erat. Proin ornare, nisl sit amet cursus gravida, nisl metus fermentum diam, in varius sem massa sit amet est. Curabitur id metus eget tellus rhoncus pellentesque. Aliquam a semper erat. Fusce scelerisque nisi a elit tempus laoreet. Aliquam id pellentesque eros. Morbi ac vehicula arcu. Etiam sit amet malesuada felis. Cras in sem eget elit bibendum gravida. Pellentesque vel congue nisl, eget rutrum dui.</p>
+			</div>
+			<div class="revenue-description2">
+				<h2 class="description-heading">Why does it matter to me?</h2>
+				<p id="revenue-importance-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue lorem vel est porta convallis. Vivamus sagittis nisi in lacinia tristique. Proin quis vestibulum quam. Vestibulum placerat ultricies sem, in aliquam justo tempus quis. Proin nec dignissim erat. Suspendisse quis neque a erat fermentum fringilla at quis erat. Proin ornare, nisl sit amet cursus gravida, nisl metus fermentum diam, in varius sem massa sit amet est. Curabitur id metus eget tellus rhoncus pellentesque. Aliquam a semper erat. Fusce scelerisque nisi a elit tempus laoreet. Aliquam id pellentesque eros. Morbi ac vehicula arcu. Etiam sit amet malesuada felis. Cras in sem eget elit bibendum gravida. Pellentesque vel congue nisl, eget rutrum dui.</p>
+				<div class="play-button">
+					<p><a data-toggle="modal" href="#taxes-play" class="btn btn-primary btn-lg btn-success"><i class="fa fa-play"></i>  PLAY</a></p>
+				</div>
+			</div>
+		</div>
+        <div id="toggleText4" style="display: none">
+            <div class="revenue-title">
+                <h1>Budgeting</h1>
+            </div>
+            <div class="revenue-description">
+                <h2 class="description-heading">What is it?</h2>
+                <p id="revenue-intro-text">Now, when it comes to finding the appropriate balance between each of the factors discussed up until this point, most people see the most effective ways of management as excessively time- and effort-intensive.  We won't deny that doing so requires discipline, but the truth is that it's much easier than it might seem!  The central philosophy for keeping a budget is to give consistency to your expenditures.  By planning ahead and tracking these expenditures, you can avoid going into debt and guarantee a buffer for times when things go wrong.</p>
+            </div>
+            <div class="revenue-description2">
+                <h2 class="description-heading">Why does it matter to me?</h2>
+                <p id="revenue-importance-text">The world being an incredibly diverse place, some people reach a point where they feel that careful budgeting isn't necessary.  The truth is that this isn't true.  Money is a valuable commodity, no matter its quantity, and it is rarely, if ever, permanent.  Budgeting not only helps defend against unfortunate circumstances, but it maximizes the effectiveness of all of your money!  Outside of these philosophical advantages, it prevents one of the most common traps of modern American society: debt, especially credit card debt.  Most people don't take loans from loan sharks and the mafia, but with seemingly free money constantly at hand, emulating the same action with nothing more than a swipe of a card is all too easy.  Click Play to experience this week's simulation component.</p>
+                <div class="play-button">
+                    <p><a data-toggle="modal" href="#budgeting-play" class="btn btn-primary btn-lg btn-success"><i class="fa fa-play"></i>  PLAY</a></p>
+                </div>
+            </div>
+        </div>
+		<div id="generator" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title">
+									Complete Resume Categories Below
+								</h4>
+							</div>
+							<div class="modal-body">
+								Job:
+								<a data-toggle="modal" href="#generator" class="btn btn-primary btn-success generate-button" onclick="displayJob1();">Generate</a>
+								Salary:
+								<a data-toggle="modal" href="#generator" class="btn btn-primary btn-success generate-button" onclick="displaySalary();">Generate</a>
+							</div>
+							<div class="alert alert-success alert-job1 alert-dismissable alert-job">
+								<button type="button" class="close" onclick="$('.alert-job1').fadeOut(1000);" aria-hidden="true">&times;</button>
+								You are a <strong>Truck Driver</strong>!
+							</div>
+							<div class="alert alert-success alert-job2 alert-dismissable alert-job">
+								<button type="button" class="close" onclick="$('.alert-job2').fadeOut(1000);" aria-hidden="true">&times;</button>
+								You are a <strong>McDonald's Burger Flipper</strong>!
+							</div>
+							<div class="alert alert-success alert-job3 alert-dismissable alert-job">
+								<button type="button" class="close" onclick="$('.alert-job3').fadeOut(1000);" aria-hidden="true">&times;</button>
+								You are a <strong>Starbucks Barista</strong>!
+							</div>
+							<div class="alert alert-success alert-job4 alert-dismissable alert-job">
+								<button type="button" class="close" onclick="$('.alert-job4').fadeOut(1000);" aria-hidden="true">&times;</button>
+								You are a <strong>Starbucks Barista</strong>!
+							</div>
+							<div class="alert alert-success alert-dismissable alert-salary">
+								<button type="button" class="close" onclick="$('.alert-salary').fadeOut(1000);" aria-hidden="true">&times;</button>
+								Your annual salary is <strong>$31,539</strong>
+							</div>
+                            <div class='resume'>
+                                <h1 id='resume_header'></h1>
+                                <h2 class='resume_section_headers'>Section 1:</h2>
+                                <!-- Drpdown -->
+                            </div>
+						</div><!-- /.modal-content -->
+					</div><!--.modal-dialog -->
+		</div>
+		<div id="expenses-play" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title">
+									Expenses Game Part Coming Soon!
+								</h4>
+							</div>
+							<div class="modal-body">
+								Coming Soon!
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!--.modal-dialog -->
+		</div>
+		<div id="taxes-play" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title">
+									Taxes Game Part Coming Soon!
+								</h4>
+							</div>
+							<div class="modal-body">
+								Coming Soon!
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!--.modal-dialog -->
+		</div>
+		<div id="budgeting-play" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+									&times;
+								</button>
+								<h4 class="modal-title">
+									Budgeting
+								</h4>
+							</div>
+							<div class="modal-body budgeting-modal">
+								<strong>Instructions</strong>: Select a mode from the dropdown below and use the cumulative receipt to set up a budgeting spreadsheet using the template below.  We promise that in real life it's even simpler!  Our favorite tool, <a href="https://www.mint.com/">Mint</a>, automatically can automatically feed your credit card activity (for free, of course) into a highly intuitive UI!
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    Select Mode <span class="caret"></span>
+                                  </button>
+                                  <ul class="dropdown-menu" role="menu">
+                                      <li><a onclick="showExampleReceipt()">Example Receipt</a></li>
+                                      <li><a onclick="showEntryForm();">Enter Your Own</a></li>
+                                  </ul>
+                                    <div class="receipt">
+                                        <h1 class="receipt-header">Monthly Receipt</h1>
+                                        <div id="receipt-body"></div>
+                                    </div>
+                                </div>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!--.modal-dialog -->
+		</div>
+		<script language="javascript"> 
+		function visitRevenue(){
+		  if ($("#toggleText").is(':visible')) {
+		    $("#toggleText").fadeOut(1000);
+			$(".instructions").fadeIn(1000);
+		  } else if ($("#toggleText2").is(':visible')) {
+			$("#toggleText2").fadeOut(1000);
+			$("#toggleText").fadeIn(1000);
+			$("#displayText").addClass('visited');
+		} else if ($("#toggleText3").is(':visible')) {
+			$("#toggleText3").fadeOut(1000);
+			$("#toggleText").fadeIn(1000);
+			$("#displayText").addClass('visited');
+		} else if ($("#toggleText4").is(':visible')) {
+			$("#toggleText4").fadeOut(1000);
+			$("#toggleText").fadeIn(1000);
+			$("#displayText").addClass('visited');
+		}
+		  else {
+		    $("#toggleText").fadeIn(1000);
+			$("#displayText").addClass('visited');
+			$(".instructions").fadeOut(1000);
+		  }
+		}
+		</script>
+		<script language="javascript">
+		function displayJob1() {
+		    $('.alert-job').hide();
+			var jobnumber = Math.floor(Math.random()*4);
+			if (jobnumber === 1) {
+				$(".alert-job1").fadeIn(1000);
+			} else if (jobnumber === 0) {
+				$(".alert-job2").fadeIn(1000);
+			} else if (jobnumber === 2) {
+				$(".alert-job3").fadeIn(1000);
+			} else if (jobnumber === 3) {
+				$(".alert-job4").fadeIn(1000);
+			} 
+		}
+		</script>
+		<script language="javascript">
+		function displaySalary() {
+			$(".alert-salary").fadeIn(1000);
+		}
+		</script>
+		<script language="javascript"> 
+		function visitExpenses(){
+		  if ($("#toggleText2").is(':visible')) {
+		    $("#toggleText2").fadeOut(1000);
+			$(".instructions").fadeIn(1000);
+		  } else if ($("#toggleText").is(':visible')) {
+			$("#toggleText").fadeOut(1000);
+			$("#toggleText2").fadeIn(1000);
+			$("#displayText2").addClass('visited');
+		} else if ($("#toggleText3").is(':visible')) {
+			$("#toggleText3").fadeOut(1000);
+			$("#toggleText2").fadeIn(1000);
+			$("#displayText2").addClass('visited');
+		} else if ($("#toggleText4").is(':visible')) {
+			$("#toggleText4").fadeOut(1000);
+			$("#toggleText2").fadeIn(1000);
+			$("#displayText2").addClass('visited');
+		} else {
+		    $("#toggleText2").fadeIn(1000);
+			$("#displayText2").addClass('visited');
+			$(".instructions").fadeOut(1000);
+		  }
+		}
+		</script>
+		<script language="javascript"> 
+		function visitTaxes(){
+		  if ($("#toggleText3").is(':visible')) {
+		    $("#toggleText3").fadeOut(1000);
+			$(".instructions").fadeIn(1000);
+		  } else if ($("#toggleText").is(':visible')) {
+			$("#toggleText").fadeOut(1000);
+			$("#toggleText3").fadeIn(1000);
+			$("#displayText3").addClass('visited');
+		} else if ($("#toggleText2").is(':visible')) {
+			$("#toggleText2").fadeOut(1000);
+			$("#toggleText3").fadeIn(1000);
+			$("#displayText3").addClass('visited');
+		} else if ($("#toggleText4").is(':visible')) {
+			$("#toggleText4").fadeOut(1000);
+			$("#toggleText3").fadeIn(1000);
+			$("#displayText3").addClass('visited');
+		} else {
+		    $("#toggleText3").fadeIn(1000);
+			$("#displayText3").addClass('visited');
+			$(".instructions").fadeOut(1000);
+		  }
+		}
+		</script>
+		<script language="javascript"> 
+		function visitBudgeting(){
+		  if ($("#toggleText4").is(':visible')) {
+		    $("#toggleText4").fadeOut(1000);
+			$(".instructions").fadeIn(1000);
+		  } else if ($("#toggleText").is(':visible')) {
+			$("#toggleText").fadeOut(1000);
+			$("#toggleText4").fadeIn(1000);
+			$("#displayText4").addClass('visited');
+		} else if ($("#toggleText2").is(':visible')) {
+			$("#toggleText2").fadeOut(1000);
+			$("#toggleText4").fadeIn(1000);
+			$("#displayText4").addClass('visited');
+		} else if ($("#toggleText3").is(':visible')) {
+			$("#toggleText3").fadeOut(1000);
+			$("#toggleText4").fadeIn(1000);
+			$("#displayText4").addClass('visited');
+		} else {
+		    $("#toggleText4").fadeIn(1000);
+			$("#displayText4").addClass('visited');
+			$(".instructions").fadeOut(1000);
+		  }
+		}
+		</script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	</body>
+</html>
